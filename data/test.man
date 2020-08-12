@@ -1,0 +1,293 @@
+.nh
+.TH test\-app 8
+
+.SH NAME
+.PP
+test\-app \- interact with config map and secret manager variables
+
+
+.SH SYNOPSIS
+.PP
+test\-app
+
+
+.SH COMMAND TREE
+.RS
+.IP \(bu 2
+env, e
+\[la]#env-e\[ra]
+.RS
+.IP \(bu 2
+diff, d
+\[la]#diff-d\[ra]
+.RS
+.IP \(bu 2
+namespace, ns
+\[la]#namespace-ns\[ra]
+.IP \(bu 2
+ansible, legacy
+\[la]#ansible-legacy\[ra]
+
+.RE
+
+.IP \(bu 2
+view, v
+\[la]#view-v\[ra]
+.RS
+.IP \(bu 2
+configmap, c
+\[la]#configmap-c\[ra]
+.IP \(bu 2
+ansible, legacy
+\[la]#ansible-legacy\[ra]
+.IP \(bu 2
+namespace, ns
+\[la]#namespace-ns\[ra]
+
+.RE
+
+
+.RE
+
+.IP \(bu 2
+s3
+\[la]#s3\[ra]
+.RS
+.IP \(bu 2
+get
+\[la]#get\[ra]
+
+.RE
+
+.IP \(bu 2
+version, v
+\[la]#version-v\[ra]
+
+.RE
+
+.PP
+\fBUsage\fP:
+
+.PP
+.RS
+
+.nf
+test\-app [GLOBAL OPTIONS] command [COMMAND OPTIONS] [ARGUMENTS...]
+
+.fi
+.RE
+
+
+.SH COMMANDS
+.SH env, e
+.PP
+Commands to interact with environment variables, both local and on cluster.
+
+.SS diff, d
+.PP
+Print out detailed diff reports comparing local and running Pod
+
+.SS namespace, ns
+.PP
+View diff of local vs. namespace
+
+.PP
+.RS
+
+.nf
+View the diff of the local ansible\-vault encrypted Kubenetes Secret file
+against a given dotenv file on a pod within a namespace.
+
+The local file will use the contents of the 'data.<accsessor flag>' block.
+This defaults to 'data..env'.
+
+Supported ansible\-vault encryption version: $ANSIBLE\_VAULT;1.1;AES256
+
+Example file structure of decrypted file:
+
+\-\-\-
+apiVersion: v1
+kind: Secret
+type: Opaque
+data:
+  .env: <BASE64 ENCODED STRING>
+
+It will then grab contents of the dotenv filr on a Pod in a given Namespace.
+
+This defaults to inspecting the '$PWD/.env on' when executing a 'cat' command.
+This method uses '/bin/bash \-c' as the base command to perform inspection.
+
+.fi
+.RE
+
+.PP
+\fB\-\-cmd\fP="": Command to inspect (default: node)
+
+.PP
+\fB\-\-configmap, \-c\fP="": Path to configmap.yaml
+
+.PP
+\fB\-\-exclude\fP="": List (csv) of specific env vars to exclude values from display. Set to \fB\fC""\fR to remove any exclusions. (default: PATH,SHLVL,HOSTNAME)
+
+.PP
+\fB\-\-filter\-prefix, \-f\fP="": List of prefixes (csv) used to filter values from display. Set to \fB\fC""\fR to remove any filters. (default: npm\fI,KUBERNETES\fP,API\_PORT)
+
+.PP
+\fB\-\-namespace, \-n\fP="": Kube Namespace to list Pods from for inspection
+
+.PP
+\fB\-\-secret\-suffix\fP="": Suffix used to find ENV variables that denote the Secret Manager Secrets to lookup (default: \_NAME)
+
+.PP
+\fB\-\-secrets, \-s\fP="": Path to secrets.yml (default: .docker/secrets.yml)
+
+.SS ansible, legacy
+.PP
+View diff of local (ansible encrypted) vs. namespace
+
+.PP
+.RS
+
+.nf
+View the diff of the local ansible\-vault encrypted Kubenetes Secret file
+against a given dotenv file on a pod within a namespace.
+
+The local file will use the contents of the 'data.<accsessor flag>' block.
+This defaults to 'data..env'.
+
+Supported ansible\-vault encryption version: $ANSIBLE\_VAULT;1.1;AES256
+
+Example file structure of decrypted file:
+
+\-\-\-
+apiVersion: v1
+kind: Secret
+type: Opaque
+data:
+  .env: <BASE64 ENCODED STRING>
+
+It will then grab contents of the dotenv filr on a Pod in a given Namespace.
+
+This defaults to inspecting the '$PWD/.env on' when executing a 'cat' command.
+This method uses '/bin/bash \-c' as the base command to perform inspection.
+
+.fi
+.RE
+
+.PP
+\fB\-\-accessor, \-a\fP="": Accessor key to pull data out of Data block. (default: .env)
+
+.PP
+\fB\-\-dotenv\fP="": Path to \fB\fC\&.env\fR file on Pod (default: $PWD/.env)
+
+.PP
+\fB\-\-encrypted\-env\-file, \-e\fP="": Path to encrypted Kube Secret file
+
+.PP
+\fB\-\-namespace, \-n\fP="": Kube Namespace list Pods from for inspection
+
+.PP
+\fB\-\-vault\-password\-file\fP="": vault password file \fB\fCVAULT\_PASSWORD\_FILE\fR
+
+.SS view, v
+.PP
+View configured environment for either local or running on a Pod
+
+.SS configmap, c
+.PP
+View env values based on local settings in a ConfigMap and secrets.yml
+
+.PP
+.RS
+
+.PP
+A single line of UsageText
+
+.RE
+
+.PP
+\fB\-\-configmap, \-c\fP="": Path to configmap.yaml
+
+.PP
+\fB\-\-secret\-suffix\fP="": Suffix used to find ENV variables that denote the Secret Manager Secrets to lookup (default: \_NAME)
+
+.PP
+\fB\-\-secrets, \-s\fP="": Path to secrets.yml (default: .docker/secrets.yml)
+
+.SS ansible, legacy
+.PP
+View env values from ansible\-vault encrypted Secret file.
+
+.PP
+.RS
+
+.PP
+A single line of UsageText
+
+.RE
+
+.PP
+\fB\-\-accessor, \-a\fP="": Accessor key to pull data out of Data block. (default: .env)
+
+.PP
+\fB\-\-encrypted\-env\-file, \-e\fP="": Path to encrypted Kube Secret file
+
+.PP
+\fB\-\-vault\-password\-file\fP="": vault password file \fB\fCVAULT\_PASSWORD\_FILE\fR
+
+.SS namespace, ns
+.PP
+Interact with env on a running Pod within a Namespace
+
+.PP
+.RS
+
+.nf
+View the diff of the local ansible\-vault encrypted Kubenetes Secret file
+against a given dotenv file on a pod within a namespace.
+
+The local file will use the contents of the 'data.<accsessor flag>' block.
+This defaults to 'data..env'.
+
+Supported ansible\-vault encryption version: $ANSIBLE\_VAULT;1.1;AES256
+
+Example file structure of decrypted file:
+
+\-\-\-
+apiVersion: v1
+kind: Secret
+type: Opaque
+data:
+  .env: <BASE64 ENCODED STRING>
+
+It will then grab contents of the dotenv filr on a Pod in a given Namespace.
+
+This defaults to inspecting the '$PWD/.env on' when executing a 'cat' command.
+This method uses '/bin/bash \-c' as the base command to perform inspection.
+
+.fi
+.RE
+
+.PP
+\fB\-\-cmd\fP="": Command to inspect (default: node)
+
+.PP
+\fB\-\-exclude\fP="": List (csv) of specific env vars to exclude values from display. Set to \fB\fC""\fR to remove any exclusions. (default: PATH,SHLVL,HOSTNAME)
+
+.PP
+\fB\-\-filter\-prefix, \-f\fP="": List of prefixes (csv) used to filter values from display. Set to \fB\fC""\fR to remove any filters. (default: npm\fI,KUBERNETES\fP,API\_PORT)
+
+.PP
+\fB\-\-namespace, \-n\fP="": Kube Namespace list Pods from
+
+.SH s3
+.PP
+simple S3 commands
+
+.SS get
+.PP
+[object path] [destination path]
+
+.SH version, v
+.PP
+Print version info
