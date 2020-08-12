@@ -323,230 +323,29 @@ func Test_ToMan(t *testing.T) {
 
 func Example() {
 	app := &cli.App{
-		Name:     "test-app",
-		Version:  "v1.0.0",
+		Name:     "demo",
+		Version:  "0.0.1",
 		Compiled: time.Now(),
 		Authors: []*cli.Author{
 			{
-				Name:  "A bc",
-				Email: "a@b.c",
-			},
-			{
-				Name: "Just a Name",
+				Name:  "John Doe",
+				Email: "j@doe.com",
 			},
 		},
-		Copyright:            "(c) 2020 Yolo",
-		HelpName:             "test-app",
-		Usage:                "interact with config map and secret manager variables",
+		HelpName:             "demo",
+		Usage:                "a demo cli app",
 		EnableBashCompletion: true,
 		Commands: []*cli.Command{
-			{
-				Name:    "env",
-				Aliases: []string{"e"},
-				Usage:   "Commands to interact with environment variables, both local and on cluster.",
-				Subcommands: []*cli.Command{
-					{
-						Name:    "diff",
-						Aliases: []string{"d"},
-						Usage:   "Print out detailed diff reports comparing local and running Pod",
-						Subcommands: []*cli.Command{
-							{
-								Name:      "namespace",
-								Aliases:   []string{"ns"},
-								Usage:     "View diff of local vs. namespace",
-								UsageText: multiline,
-								Flags: []cli.Flag{
-									&cli.StringFlag{
-										Name:     "secrets",
-										Aliases:  []string{"s"},
-										Usage:    "Path to secrets.yml",
-										Required: false,
-										Value:    ".docker/secrets.yml",
-									},
-									&cli.StringFlag{
-										Name:     "configmap",
-										Aliases:  []string{"c"},
-										Usage:    "Path to configmap.yaml",
-										Required: true,
-									},
-									&cli.StringFlag{
-										Name:     "namespace",
-										Aliases:  []string{"n"},
-										Usage:    "Kube Namespace to list Pods from for inspection",
-										Required: true,
-									},
-									&cli.StringFlag{
-										Name:     "cmd",
-										Usage:    "Command to inspect",
-										Required: false,
-										Value:    "node",
-									},
-									&cli.StringFlag{
-										Name:     "filter-prefix",
-										Aliases:  []string{"f"},
-										Usage:    "List of prefixes (csv) used to filter values from display. Set to `\"\"` to remove any filters.",
-										Required: false,
-										Value:    "npm_,KUBERNETES_,API_PORT",
-									},
-									&cli.StringFlag{
-										Name:     "exclude",
-										Usage:    "List (csv) of specific env vars to exclude values from display. Set to `\"\"` to remove any exclusions.",
-										Required: false,
-										Value:    "PATH,SHLVL,HOSTNAME",
-									},
-									&cli.StringFlag{
-										Name:  "secret-suffix",
-										Usage: "Suffix used to find ENV variables that denote the Secret Manager Secrets to lookup",
-										Value: "_NAME",
-									},
-								},
-								Action: stub,
-							},
-							{
-								Name:      "ansible",
-								Aliases:   []string{"legacy"},
-								Usage:     "View diff of local (ansible encrypted) vs. namespace",
-								UsageText: multiline,
-								Flags: []cli.Flag{
-									&cli.StringFlag{
-										Name:     "vault-password-file",
-										Usage:    "vault password file `VAULT_PASSWORD_FILE`",
-										Required: false,
-									},
-									&cli.StringFlag{
-										Name:     "encrypted-env-file",
-										Aliases:  []string{"e"},
-										Usage:    "Path to encrypted Kube Secret file",
-										Required: true,
-									},
-									&cli.StringFlag{
-										Name:    "accessor",
-										Aliases: []string{"a"},
-										Usage:   "Accessor key to pull data out of Data block.",
-										Value:   ".env",
-									},
-									&cli.StringFlag{
-										Name:     "namespace",
-										Aliases:  []string{"n"},
-										Usage:    "Kube Namespace list Pods from for inspection",
-										Required: true,
-									},
-									&cli.StringFlag{
-										Name:     "dotenv",
-										Usage:    "Path to `.env` file on Pod",
-										Required: false,
-										Value:    "$PWD/.env",
-									},
-								},
-								Action: stub,
-							},
-						},
-					},
-					{
-						Name:    "view",
-						Aliases: []string{"v"},
-						Usage:   "View configured environment for either local or running on a Pod",
-						Subcommands: []*cli.Command{
-							{
-								Name:      "configmap",
-								Aliases:   []string{"c"},
-								Usage:     "View env values based on local settings in a ConfigMap and secrets.yml",
-								UsageText: singleline,
-								Flags: []cli.Flag{
-									&cli.StringFlag{
-										Name:     "secrets",
-										Aliases:  []string{"s"},
-										Usage:    "Path to secrets.yml",
-										Required: false,
-										Value:    ".docker/secrets.yml",
-									},
-									&cli.StringFlag{
-										Name:     "configmap",
-										Aliases:  []string{"c"},
-										Usage:    "Path to configmap.yaml",
-										Required: true,
-									},
-									&cli.StringFlag{
-										Name:  "secret-suffix",
-										Usage: "Suffix used to find ENV variables that denote the Secret Manager Secrets to lookup",
-										Value: "_NAME",
-									},
-								},
-								Action: stub,
-							},
-							{
-								Name:      "ansible",
-								Aliases:   []string{"legacy"},
-								Usage:     "View env values from ansible-vault encrypted Secret file.",
-								UsageText: singleline,
-								Flags: []cli.Flag{
-									&cli.StringFlag{
-										Name:     "vault-password-file",
-										Usage:    "vault password file `VAULT_PASSWORD_FILE`",
-										Required: false,
-									},
-									&cli.StringFlag{
-										Name:     "encrypted-env-file",
-										Aliases:  []string{"e"},
-										Usage:    "Path to encrypted Kube Secret file",
-										Required: true,
-									},
-									&cli.StringFlag{
-										Name:    "accessor",
-										Aliases: []string{"a"},
-										Usage:   "Accessor key to pull data out of Data block.",
-										Value:   ".env",
-									},
-								},
-								Action: stub,
-							},
-							{
-								Name:      "namespace",
-								Aliases:   []string{"ns"},
-								Usage:     "Interact with env on a running Pod within a Namespace",
-								UsageText: multiline,
-								Flags: []cli.Flag{
-									&cli.StringFlag{
-										Name:     "namespace",
-										Aliases:  []string{"n"},
-										Usage:    "Kube Namespace list Pods from",
-										Required: true,
-									},
-									&cli.StringFlag{
-										Name:     "cmd",
-										Usage:    "Command to inspect",
-										Required: false,
-										Value:    "node",
-									},
-									&cli.StringFlag{
-										Name:     "filter-prefix",
-										Aliases:  []string{"f"},
-										Usage:    "List of prefixes (csv) used to filter values from display. Set to `\"\"` to remove any filters.",
-										Required: false,
-										Value:    "npm_,KUBERNETES_,API_PORT",
-									},
-									&cli.StringFlag{
-										Name:     "exclude",
-										Usage:    "List (csv) of specific env vars to exclude values from display. Set to `\"\"` to remove any exclusions.",
-										Required: false,
-										Value:    "PATH,SHLVL,HOSTNAME",
-									},
-								},
-								Action: stub,
-							},
-						},
-					},
-				},
-			},
 			{
 				Name:  "s3",
 				Usage: "simple S3 commands",
 				Subcommands: []*cli.Command{
 					{
-						Name:  "get",
-						Usage: "[object path] [destination path]",
+						Name:      "get",
+						Usage:     "[object path] [destination path]",
+						UsageText: "it's going to get an object",
 						Action: func(c *cli.Context) error {
-							fmt.Println("test")
+							fmt.Println("get")
 							return nil
 						},
 					},
@@ -557,16 +356,7 @@ func Example() {
 				Aliases: []string{"v"},
 				Usage:   "Print version info",
 				Action: func(c *cli.Context) error {
-					fmt.Println("test")
-					return nil
-				},
-			},
-			{
-				Name:   "hidden",
-				Usage:  "This is hidden",
-				Hidden: true,
-				Action: func(c *cli.Context) error {
-					fmt.Println("test")
+					fmt.Println("version")
 					return nil
 				},
 			},
@@ -574,6 +364,8 @@ func Example() {
 	}
 
 	md, _ := ToMarkdown(app)
-
 	fmt.Println(md)
+
+	man, _ := ToMan(app)
+	fmt.Println(man)
 }
