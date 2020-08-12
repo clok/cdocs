@@ -12,7 +12,7 @@ import (
 	"github.com/cpuguy83/go-md2man/v2/md2man"
 )
 
-var MarkdownDocTemplate = `% {{ .App.Name }} 8
+const markdownDocTemplate = `% {{ .App.Name }} 8
 # NAME
 {{ .App.Name }}{{ if .App.Usage }} - {{ .App.Usage }}{{ end }}
 # SYNOPSIS
@@ -73,7 +73,7 @@ type cliTemplate struct {
 
 func writeDocTemplate(w io.Writer, a *cli.App) error {
 	const name = "cli"
-	t, err := template.New(name).Parse(MarkdownDocTemplate)
+	t, err := template.New(name).Parse(markdownDocTemplate)
 	if err != nil {
 		return err
 	}
