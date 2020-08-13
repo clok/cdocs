@@ -1,13 +1,28 @@
 package cdocs
 
 import (
+	"bytes"
 	"fmt"
 	"github.com/stretchr/testify/assert"
 	"github.com/urfave/cli/v2"
 	"io/ioutil"
+	"os"
 	"testing"
 	"time"
 )
+
+var (
+	lastExitCode = 0
+	fakeOsExiter = func(rc int) {
+		lastExitCode = rc
+	}
+	fakeErrWriter = &bytes.Buffer{}
+)
+
+func init() {
+	cli.OsExiter = fakeOsExiter
+	cli.ErrWriter = fakeErrWriter
+}
 
 const multiline = `
 View the diff of the local ansible-vault encrypted Kubenetes Secret file
@@ -319,6 +334,111 @@ func Test_ToMan(t *testing.T) {
 
 	is.Nil(err)
 	is.Equal(res, string(data))
+}
+
+func Test_extractManpageSettings(t *testing.T) {
+	is := assert.New(t)
+
+	t.Run("AppName is required", func(t *testing.T) {
+		_, _, _, err := extractManpageSettings(&InstallManpageCommandInput{
+			AppName: "",
+			CmdName: "",
+			Path:    "",
+		})
+
+		is.Error(err, "AppName is required. Options passed in: &cdocs.InstallManpageCommandInput{AppName:\"\", CmdName:\"\", Path:\"\"}")
+	})
+
+	t.Run("path and command defaults", func(t *testing.T) {
+		name, cmdname, path, err := extractManpageSettings(&InstallManpageCommandInput{
+			AppName: "test",
+			CmdName: "",
+			Path:    "",
+		})
+
+		is.Nil(err)
+		is.Equal(name, "test")
+		is.Equal(cmdname, "install-manpage")
+		is.Equal(path, "/usr/local/share/man/man8")
+	})
+
+	t.Run("all can be set", func(t *testing.T) {
+		name, cmdname, path, err := extractManpageSettings(&InstallManpageCommandInput{
+			AppName: "test",
+			CmdName: "test-cmd",
+			Path:    "/a/path",
+		})
+
+		is.Nil(err)
+		is.Equal(name, "test")
+		is.Equal(cmdname, "test-cmd")
+		is.Equal(path, "/a/path")
+	})
+}
+
+func Test_InstallManpageCommand(t *testing.T) {
+	is := assert.New(t)
+
+	t.Run("AppName is required", func(t *testing.T) {
+		_, err := InstallManpageCommand(&InstallManpageCommandInput{
+			AppName: "",
+			CmdName: "",
+			Path:    "",
+		})
+
+		is.Error(err, "AppName is required. Options passed in: &cdocs.InstallManpageCommandInput{AppName:\"\", CmdName:\"\", Path:\"\"}")
+	})
+
+	t.Run("generate a cli.Command", func(t *testing.T) {
+		cmd, err := InstallManpageCommand(&InstallManpageCommandInput{
+			AppName: "test",
+		})
+
+		is.Nil(err)
+		is.NotNil(cmd)
+		is.IsType(cli.Command{}, *cmd)
+		is.Equal("install-manpage", cmd.Name)
+		is.Equal("Generate and install man page", cmd.Usage)
+		is.Equal("NOTE: Windows is not supported", cmd.UsageText)
+	})
+
+	t.Run("generate a man page and install", func(t *testing.T) {
+		cmd, err := InstallManpageCommand(&InstallManpageCommandInput{
+			AppName: "test-install-manpage",
+			Path:    "/tmp",
+		})
+
+		is.Nil(err)
+		is.NotNil(cmd)
+
+		app := testApp()
+		app.Commands = append(app.Commands, cmd)
+
+		err = app.Run([]string{"test-install-manpage", "install-manpage"})
+		is.Nil(err)
+		is.FileExists("/tmp/test-install-manpage.8")
+		err = os.Remove("/tmp/test-install-manpage.8")
+		is.Nil(err)
+	})
+
+	t.Run("fail to generate a man page when installing to a path that does not exist", func(t *testing.T) {
+		cmd, err := InstallManpageCommand(&InstallManpageCommandInput{
+			AppName: "test-install-manpage",
+			Path:    "/b/a/d/p/a/t/h/",
+		})
+
+		is.Nil(err)
+		is.NotNil(cmd)
+
+		app := testApp()
+		app.Commands = append(app.Commands, cmd)
+
+		err = app.Run([]string{"test-install-manpage", "install-manpage"})
+
+		is.NotNil(err)
+		is.Error(err)
+		is.Equal("Unable to install man page. /b/a/d/p/a/t/h/ does not exist", err.Error())
+	})
 }
 
 func Example() {

@@ -5,14 +5,23 @@ import (
 	"fmt"
 	"github.com/urfave/cli/v2"
 	"io"
+	"io/ioutil"
+	"os"
+	"path/filepath"
+	"runtime"
 	"sort"
 	"strings"
 	"text/template"
 
+	"github.com/clok/kemba"
 	"github.com/cpuguy83/go-md2man/v2/md2man"
 )
 
-const markdownDocTemplate = `% {{ .App.Name }} 8
+var (
+	kl                  = kemba.New("cdocs")
+	kim                 = kl.Extend("InstallManpageCommand")
+	kman                = kl.Extend("install-manpage")
+	markdownDocTemplate = `% {{ .App.Name }} 8
 # NAME
 {{ .App.Name }}{{ if .App.Usage }} - {{ .App.Usage }}{{ end }}
 # SYNOPSIS
@@ -41,8 +50,9 @@ const markdownDocTemplate = `% {{ .App.Name }} 8
 # COMMANDS
 {{ range $v := .Commands }}
 {{ $v }}{{ end }}{{ end }}`
+)
 
-// ToMarkdown creates a markdown string for the `*App`
+// ToMarkdown creates a markdown string for the *cli.App
 // The function errors if either parsing or writing of the string fails.
 func ToMarkdown(a *cli.App) (string, error) {
 	var w bytes.Buffer
@@ -52,7 +62,7 @@ func ToMarkdown(a *cli.App) (string, error) {
 	return w.String(), nil
 }
 
-// ToMan creates a man page string for the `*App`
+// ToMan creates a man page string for the *cli.App
 // The function errors if either parsing or writing of the string fails.
 func ToMan(a *cli.App) (string, error) {
 	var w bytes.Buffer
@@ -61,6 +71,79 @@ func ToMan(a *cli.App) (string, error) {
 	}
 	man := md2man.Render(w.Bytes())
 	return string(man), nil
+}
+
+// InstallManpageCommandInput provides an interface to pass in options for the InstallManpageCommand
+//
+// - AppName is required.
+//
+// - CmdName defaults to 'install-manpage'
+//
+// - Path defaults to '/usr/local/share/man/man8'
+type InstallManpageCommandInput struct {
+	AppName string `required:"true"`
+	CmdName string `default:"install-command"`
+	Path    string `default:"/usr/local/share/man/man8"`
+}
+
+// InstallManpageCommand will generate a *cli.Command to be used with a cli.App.
+// This will install a manual page (8) to the man-db.
+func InstallManpageCommand(opts *InstallManpageCommandInput) (*cli.Command, error) {
+	name, cmdname, path, err := extractManpageSettings(opts)
+	if err != nil {
+		return nil, err
+	}
+
+	cmd := &cli.Command{
+		Name:      cmdname,
+		Usage:     "Generate and install man page",
+		UsageText: "NOTE: Windows is not supported",
+		Action: func(c *cli.Context) error {
+			kman.Printf("OS detected: %s", runtime.GOOS)
+			if runtime.GOOS == "windows" {
+				fmt.Println("Windows man page is not supported.")
+				return nil
+			}
+
+			if _, err := os.Stat(path); os.IsNotExist(err) {
+				return cli.NewExitError(fmt.Sprintf("Unable to install man page. %s does not exist", path), 2)
+			}
+
+			mp, _ := ToMan(c.App)
+			manpath := filepath.Join(path, fmt.Sprintf("%s.8", name))
+			kman.Printf("generated man page path: %s", manpath)
+			err := ioutil.WriteFile(manpath, []byte(mp), 0644)
+			if err != nil {
+				return cli.NewExitError(fmt.Sprintf("Unable to install man page: %e", err), 2)
+			}
+
+			return nil
+		},
+	}
+
+	return cmd, nil
+}
+
+// extractManpageSettings processes the *InstallManpageCommandInput and validates
+func extractManpageSettings(opts *InstallManpageCommandInput) (string, string, string, error) {
+	kim.Printf("passed opts: %# v", opts)
+	name := opts.AppName
+	cmdname := opts.CmdName
+	path := opts.Path
+
+	if name == "" {
+		return "", "", "", fmt.Errorf("AppName is required. Options passed in: %# v", opts)
+	}
+
+	if path == "" {
+		path = "/usr/local/share/man/man8"
+	}
+
+	if cmdname == "" {
+		cmdname = "install-manpage"
+	}
+	kim.Printf("name: %s cmdname: %s path: %s", name, cmdname, path)
+	return name, cmdname, path, nil
 }
 
 type cliTemplate struct {
