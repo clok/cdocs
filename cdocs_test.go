@@ -442,6 +442,13 @@ func Test_InstallManpageCommand(t *testing.T) {
 }
 
 func Example() {
+	im, err := InstallManpageCommand(&InstallManpageCommandInput{
+		AppName: "demo",
+	})
+	if err != nil {
+		panic(err)
+	}
+
 	app := &cli.App{
 		Name:     "demo",
 		Version:  "0.0.1",
@@ -471,6 +478,7 @@ func Example() {
 					},
 				},
 			},
+			im,
 			{
 				Name:    "version",
 				Aliases: []string{"v"},
