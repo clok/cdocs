@@ -2,10 +2,21 @@
 ## [Unreleased]
 
 
+<a name="v0.2.2"></a>
+## [v0.2.2] - 2020-08-21
+### Chore
+- **deps:** clean up go.sum
+- **renovate:** update config
+- **renovate:** add config file
+
+
 <a name="v0.2.1"></a>
 ## [v0.2.1] - 2020-08-13
 ### Chore
 - **docs:** updated README and example
+
+### Features
+- **release:** v0.2.1
 
 
 <a name="v0.2.0"></a>
@@ -37,7 +48,8 @@
 - commit
 
 
-[Unreleased]: https://github.com/clok/cdocs/compare/v0.2.1...HEAD
+[Unreleased]: https://github.com/clok/cdocs/compare/v0.2.2...HEAD
+[v0.2.2]: https://github.com/clok/cdocs/compare/v0.2.1...v0.2.2
 [v0.2.1]: https://github.com/clok/cdocs/compare/v0.2.0...v0.2.1
 [v0.2.0]: https://github.com/clok/cdocs/compare/v0.1.1...v0.2.0
 [v0.1.1]: https://github.com/clok/cdocs/compare/v0.1.0...v0.1.1
