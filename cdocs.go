@@ -3,7 +3,6 @@ package cdocs
 import (
 	"bytes"
 	"fmt"
-	"github.com/urfave/cli/v2"
 	"io"
 	"io/ioutil"
 	"os"
@@ -15,6 +14,7 @@ import (
 
 	"github.com/clok/kemba"
 	"github.com/cpuguy83/go-md2man/v2/md2man"
+	"github.com/urfave/cli/v2"
 )
 
 var (
