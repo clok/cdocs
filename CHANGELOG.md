@@ -2,12 +2,28 @@
 ## [Unreleased]
 
 
+<a name="v0.2.3"></a>
+## [v0.2.3] - 2020-12-29
+### Chore
+- **cli:** port deprecated method cli.NewExitError to cli.Exit
+- **deps:** update jandelgado/gcov2lcov-action action to v1.0.8 ([#9](https://github.com/clok/cdocs/issues/9))
+- **deps:** update module urfave/cli/v2 to v2.3.0 ([#8](https://github.com/clok/cdocs/issues/8))
+- **deps:** update coverallsapp/github-action action to v1.1.2 ([#4](https://github.com/clok/cdocs/issues/4))
+- **deps:** update jandelgado/gcov2lcov-action action to v1.0.7 ([#5](https://github.com/clok/cdocs/issues/5))
+- **deps:** update actions/checkout action to v2 ([#6](https://github.com/clok/cdocs/issues/6))
+- **deps:** update actions/setup-go action to v2 ([#7](https://github.com/clok/cdocs/issues/7))
+- **deps:** update module clok/kemba to v0.7.1 ([#3](https://github.com/clok/cdocs/issues/3))
+
+
 <a name="v0.2.2"></a>
 ## [v0.2.2] - 2020-08-21
 ### Chore
 - **deps:** clean up go.sum
 - **renovate:** update config
 - **renovate:** add config file
+
+### Features
+- **release:** v0.2.2
 
 
 <a name="v0.2.1"></a>
@@ -48,7 +64,8 @@
 - commit
 
 
-[Unreleased]: https://github.com/clok/cdocs/compare/v0.2.2...HEAD
+[Unreleased]: https://github.com/clok/cdocs/compare/v0.2.3...HEAD
+[v0.2.3]: https://github.com/clok/cdocs/compare/v0.2.2...v0.2.3
 [v0.2.2]: https://github.com/clok/cdocs/compare/v0.2.1...v0.2.2
 [v0.2.1]: https://github.com/clok/cdocs/compare/v0.2.0...v0.2.1
 [v0.2.0]: https://github.com/clok/cdocs/compare/v0.1.1...v0.2.0
