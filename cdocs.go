@@ -106,7 +106,7 @@ func InstallManpageCommand(opts *InstallManpageCommandInput) (*cli.Command, erro
 			}
 
 			if _, err := os.Stat(path); os.IsNotExist(err) {
-				return cli.NewExitError(fmt.Sprintf("Unable to install man page. %s does not exist", path), 2)
+				return cli.Exit(fmt.Sprintf("Unable to install man page. %s does not exist", path), 2)
 			}
 
 			mp, _ := ToMan(c.App)
@@ -114,7 +114,7 @@ func InstallManpageCommand(opts *InstallManpageCommandInput) (*cli.Command, erro
 			kman.Printf("generated man page path: %s", manpath)
 			err := ioutil.WriteFile(manpath, []byte(mp), 0644)
 			if err != nil {
-				return cli.NewExitError(fmt.Sprintf("Unable to install man page: %e", err), 2)
+				return cli.Exit(fmt.Sprintf("Unable to install man page: %e", err), 2)
 			}
 
 			return nil
