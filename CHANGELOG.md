@@ -2,6 +2,15 @@
 ## [Unreleased]
 
 
+<a name="v1.0.0"></a>
+## [v1.0.0] - 2021-03-03
+### Chore
+- **deps:** update module stretchr/testify to v1.7.0 ([#10](https://github.com/clok/cdocs/issues/10))
+- **github actions:** add go proxy warming
+- **renovate:** add extension for group:allNonMajor
+- **renovate:** add gomodTidy option
+
+
 <a name="v0.2.3"></a>
 ## [v0.2.3] - 2020-12-29
 ### Chore
@@ -13,6 +22,9 @@
 - **deps:** update actions/checkout action to v2 ([#6](https://github.com/clok/cdocs/issues/6))
 - **deps:** update actions/setup-go action to v2 ([#7](https://github.com/clok/cdocs/issues/7))
 - **deps:** update module clok/kemba to v0.7.1 ([#3](https://github.com/clok/cdocs/issues/3))
+
+### Features
+- **release:** v0.2.3
 
 
 <a name="v0.2.2"></a>
@@ -64,7 +76,8 @@
 - commit
 
 
-[Unreleased]: https://github.com/clok/cdocs/compare/v0.2.3...HEAD
+[Unreleased]: https://github.com/clok/cdocs/compare/v1.0.0...HEAD
+[v1.0.0]: https://github.com/clok/cdocs/compare/v0.2.3...v1.0.0
 [v0.2.3]: https://github.com/clok/cdocs/compare/v0.2.2...v0.2.3
 [v0.2.2]: https://github.com/clok/cdocs/compare/v0.2.1...v0.2.2
 [v0.2.1]: https://github.com/clok/cdocs/compare/v0.2.0...v0.2.1
