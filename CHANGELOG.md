@@ -2,6 +2,16 @@
 ## [Unreleased]
 
 
+<a name="v1.1.0"></a>
+## [v1.1.0] - 2021-03-15
+### Bug Fixes
+- **deps:** update module github.com/clok/kemba to v1 ([#12](https://github.com/clok/cdocs/issues/12))
+
+### Chore
+- **ci:** port to using golangci-lint github action
+- **go.mod:** bump to go 1.16
+
+
 <a name="v1.0.0"></a>
 ## [v1.0.0] - 2021-03-03
 ### Chore
@@ -9,6 +19,9 @@
 - **github actions:** add go proxy warming
 - **renovate:** add extension for group:allNonMajor
 - **renovate:** add gomodTidy option
+
+### Features
+- **release:** v1.0.0
 
 
 <a name="v0.2.3"></a>
@@ -76,7 +89,8 @@
 - commit
 
 
-[Unreleased]: https://github.com/clok/cdocs/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/clok/cdocs/compare/v1.1.0...HEAD
+[v1.1.0]: https://github.com/clok/cdocs/compare/v1.0.0...v1.1.0
 [v1.0.0]: https://github.com/clok/cdocs/compare/v0.2.3...v1.0.0
 [v0.2.3]: https://github.com/clok/cdocs/compare/v0.2.2...v0.2.3
 [v0.2.2]: https://github.com/clok/cdocs/compare/v0.2.1...v0.2.2
