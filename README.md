@@ -109,3 +109,13 @@ func main() {
 	}
 }
 ```
+
+## Development
+
+1. Fork the [clok/cdocs](https://github.com/clok/cdocs) repo
+1. Use `go >= 1.16`
+1. Branch & Code
+1. Run linters :broom: `golangci-lint run`
+    - The project uses [golangci-lint](https://golangci-lint.run/usage/install/#local-installation)
+1. Commit with a Conventional Commit
+1. Open a PR
