@@ -2,8 +2,17 @@
 ## [Unreleased]
 
 
+<a name="v1.1.2"></a>
+## [v1.1.2] - 2021-04-05
+### Bug Fixes
+- **deps:** update module github.com/clok/kemba to v1.1.1 ([#13](https://github.com/clok/cdocs/issues/13))
+
+
 <a name="v1.1.1"></a>
 ## [v1.1.1] - 2021-04-05
+### Chore
+- update changelog for v1.1.1
+
 ### Ci
 - add makefile and go releaser
 
@@ -98,7 +107,8 @@
 - commit
 
 
-[Unreleased]: https://github.com/clok/cdocs/compare/v1.1.1...HEAD
+[Unreleased]: https://github.com/clok/cdocs/compare/v1.1.2...HEAD
+[v1.1.2]: https://github.com/clok/cdocs/compare/v1.1.1...v1.1.2
 [v1.1.1]: https://github.com/clok/cdocs/compare/v1.1.0...v1.1.1
 [v1.1.0]: https://github.com/clok/cdocs/compare/v1.0.0...v1.1.0
 [v1.0.0]: https://github.com/clok/cdocs/compare/v0.2.3...v1.0.0
