@@ -2,10 +2,19 @@
 ## [Unreleased]
 
 
+<a name="v1.2.0"></a>
+## [v1.2.0] - 2021-04-30
+### Features
+- **options:** add support for Hidden help message for install-manpage command
+
+
 <a name="v1.1.2"></a>
 ## [v1.1.2] - 2021-04-05
 ### Bug Fixes
 - **deps:** update module github.com/clok/kemba to v1.1.1 ([#13](https://github.com/clok/cdocs/issues/13))
+
+### Chore
+- update changelog for v1.1.2
 
 
 <a name="v1.1.1"></a>
@@ -107,7 +116,8 @@
 - commit
 
 
-[Unreleased]: https://github.com/clok/cdocs/compare/v1.1.2...HEAD
+[Unreleased]: https://github.com/clok/cdocs/compare/v1.2.0...HEAD
+[v1.2.0]: https://github.com/clok/cdocs/compare/v1.1.2...v1.2.0
 [v1.1.2]: https://github.com/clok/cdocs/compare/v1.1.1...v1.1.2
 [v1.1.1]: https://github.com/clok/cdocs/compare/v1.1.0...v1.1.1
 [v1.1.0]: https://github.com/clok/cdocs/compare/v1.0.0...v1.1.0
