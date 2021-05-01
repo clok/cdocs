@@ -340,7 +340,7 @@ func Test_extractManpageSettings(t *testing.T) {
 	is := assert.New(t)
 
 	t.Run("AppName is required", func(t *testing.T) {
-		_, _, _, err := extractManpageSettings(&InstallManpageCommandInput{
+		_, _, _, _, err := extractManpageSettings(&InstallManpageCommandInput{
 			AppName: "",
 			CmdName: "",
 			Path:    "",
@@ -349,8 +349,8 @@ func Test_extractManpageSettings(t *testing.T) {
 		is.Error(err, "AppName is required. Options passed in: &cdocs.InstallManpageCommandInput{AppName:\"\", CmdName:\"\", Path:\"\"}")
 	})
 
-	t.Run("path and command defaults", func(t *testing.T) {
-		name, cmdname, path, err := extractManpageSettings(&InstallManpageCommandInput{
+	t.Run("path, command and hidden defaults", func(t *testing.T) {
+		name, cmdname, path, hidden, err := extractManpageSettings(&InstallManpageCommandInput{
 			AppName: "test",
 			CmdName: "",
 			Path:    "",
@@ -360,19 +360,22 @@ func Test_extractManpageSettings(t *testing.T) {
 		is.Equal(name, "test")
 		is.Equal(cmdname, "install-manpage")
 		is.Equal(path, "/usr/local/share/man/man8")
+		is.False(hidden)
 	})
 
 	t.Run("all can be set", func(t *testing.T) {
-		name, cmdname, path, err := extractManpageSettings(&InstallManpageCommandInput{
+		name, cmdname, path, hidden, err := extractManpageSettings(&InstallManpageCommandInput{
 			AppName: "test",
 			CmdName: "test-cmd",
 			Path:    "/a/path",
+			Hidden:  true,
 		})
 
 		is.Nil(err)
 		is.Equal(name, "test")
 		is.Equal(cmdname, "test-cmd")
 		is.Equal(path, "/a/path")
+		is.True(hidden)
 	})
 }
 

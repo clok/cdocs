@@ -84,12 +84,13 @@ type InstallManpageCommandInput struct {
 	AppName string `required:"true"`
 	CmdName string `default:"install-command"`
 	Path    string `default:"/usr/local/share/man/man8"`
+	Hidden  bool   `default:"false"`
 }
 
 // InstallManpageCommand will generate a *cli.Command to be used with a cli.App.
 // This will install a manual page (8) to the man-db.
 func InstallManpageCommand(opts *InstallManpageCommandInput) (*cli.Command, error) {
-	name, cmdname, path, err := extractManpageSettings(opts)
+	name, cmdname, path, hidden, err := extractManpageSettings(opts)
 	if err != nil {
 		return nil, err
 	}
@@ -98,6 +99,7 @@ func InstallManpageCommand(opts *InstallManpageCommandInput) (*cli.Command, erro
 		Name:      cmdname,
 		Usage:     "Generate and install man page",
 		UsageText: "NOTE: Windows is not supported",
+		Hidden:    hidden,
 		Action: func(c *cli.Context) error {
 			kman.Printf("OS detected: %s", runtime.GOOS)
 			if runtime.GOOS == "windows" {
@@ -125,14 +127,15 @@ func InstallManpageCommand(opts *InstallManpageCommandInput) (*cli.Command, erro
 }
 
 // extractManpageSettings processes the *InstallManpageCommandInput and validates
-func extractManpageSettings(opts *InstallManpageCommandInput) (string, string, string, error) {
+func extractManpageSettings(opts *InstallManpageCommandInput) (string, string, string, bool, error) {
 	kim.Printf("passed opts: %# v", opts)
 	name := opts.AppName
 	cmdname := opts.CmdName
 	path := opts.Path
+	hidden := opts.Hidden
 
 	if name == "" {
-		return "", "", "", fmt.Errorf("AppName is required. Options passed in: %# v", opts)
+		return "", "", "", hidden, fmt.Errorf("AppName is required. Options passed in: %# v", opts)
 	}
 
 	if path == "" {
@@ -142,8 +145,8 @@ func extractManpageSettings(opts *InstallManpageCommandInput) (string, string, s
 	if cmdname == "" {
 		cmdname = "install-manpage"
 	}
-	kim.Printf("name: %s cmdname: %s path: %s", name, cmdname, path)
-	return name, cmdname, path, nil
+	kim.Printf("name: %s cmdname: %s path: %s hidden: %t", name, cmdname, path, hidden)
+	return name, cmdname, path, hidden, nil
 }
 
 type cliTemplate struct {
