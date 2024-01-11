@@ -2,8 +2,20 @@
 ## [Unreleased]
 
 
+<a name="v1.3.0"></a>
+## [v1.3.0] - 2024-01-11
+### Chore
+- **ci:** bump go version and all CI actions ([#28](https://github.com/clok/cdocs/issues/28))
+- **deps:** update actions/checkout action to v3 ([#16](https://github.com/clok/cdocs/issues/16))
+- **deps:** update actions/setup-go action to v3 ([#17](https://github.com/clok/cdocs/issues/17))
+- **deps:** update golangci/golangci-lint-action action to v3 ([#18](https://github.com/clok/cdocs/issues/18))
+
+
 <a name="v1.2.0"></a>
 ## [v1.2.0] - 2021-04-30
+### Chore
+- update changelog for v1.2.0
+
 ### Features
 - **options:** add support for Hidden help message for install-manpage command
 
@@ -116,7 +128,8 @@
 - commit
 
 
-[Unreleased]: https://github.com/clok/cdocs/compare/v1.2.0...HEAD
+[Unreleased]: https://github.com/clok/cdocs/compare/v1.3.0...HEAD
+[v1.3.0]: https://github.com/clok/cdocs/compare/v1.2.0...v1.3.0
 [v1.2.0]: https://github.com/clok/cdocs/compare/v1.1.2...v1.2.0
 [v1.1.2]: https://github.com/clok/cdocs/compare/v1.1.1...v1.1.2
 [v1.1.1]: https://github.com/clok/cdocs/compare/v1.1.0...v1.1.1
