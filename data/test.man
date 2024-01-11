@@ -1,48 +1,48 @@
 .nh
-.TH test\-app 8
+.TH test-app 8
 
 .SH NAME
 .PP
-test\-app \- interact with config map and secret manager variables
+test-app - interact with config map and secret manager variables
 
 
 .SH SYNOPSIS
 .PP
-test\-app
+test-app
 
 
 .SH COMMAND TREE
 .RS
 .IP \(bu 2
 env, e
-\[la]#env-e\[ra]
+\[la]#env\-e\[ra]
 .RS
 .IP \(bu 2
 diff, d
-\[la]#diff-d\[ra]
+\[la]#diff\-d\[ra]
 .RS
 .IP \(bu 2
 namespace, ns
-\[la]#namespace-ns\[ra]
+\[la]#namespace\-ns\[ra]
 .IP \(bu 2
 ansible, legacy
-\[la]#ansible-legacy\[ra]
+\[la]#ansible\-legacy\[ra]
 
 .RE
 
 .IP \(bu 2
 view, v
-\[la]#view-v\[ra]
+\[la]#view\-v\[ra]
 .RS
 .IP \(bu 2
 configmap, c
-\[la]#configmap-c\[ra]
+\[la]#configmap\-c\[ra]
 .IP \(bu 2
 ansible, legacy
-\[la]#ansible-legacy\[ra]
+\[la]#ansible\-legacy\[ra]
 .IP \(bu 2
 namespace, ns
-\[la]#namespace-ns\[ra]
+\[la]#namespace\-ns\[ra]
 
 .RE
 
@@ -61,21 +61,17 @@ get
 
 .IP \(bu 2
 version, v
-\[la]#version-v\[ra]
+\[la]#version\-v\[ra]
 
 .RE
 
 .PP
 \fBUsage\fP:
 
-.PP
-.RS
+.EX
+test-app [GLOBAL OPTIONS] command [COMMAND OPTIONS] [ARGUMENTS...]
 
-.nf
-test\-app [GLOBAL OPTIONS] command [COMMAND OPTIONS] [ARGUMENTS...]
-
-.fi
-.RE
+.EE
 
 
 .SH COMMANDS
@@ -91,21 +87,18 @@ Print out detailed diff reports comparing local and running Pod
 .PP
 View diff of local vs. namespace
 
-.PP
-.RS
-
-.nf
-View the diff of the local ansible\-vault encrypted Kubenetes Secret file
+.EX
+View the diff of the local ansible-vault encrypted Kubenetes Secret file
 against a given dotenv file on a pod within a namespace.
 
 The local file will use the contents of the 'data.<accsessor flag>' block.
 This defaults to 'data..env'.
 
-Supported ansible\-vault encryption version: $ANSIBLE\_VAULT;1.1;AES256
+Supported ansible-vault encryption version: $ANSIBLE_VAULT;1.1;AES256
 
 Example file structure of decrypted file:
 
-\-\-\-
+---
 apiVersion: v1
 kind: Secret
 type: Opaque
@@ -115,51 +108,47 @@ data:
 It will then grab contents of the dotenv filr on a Pod in a given Namespace.
 
 This defaults to inspecting the '$PWD/.env on' when executing a 'cat' command.
-This method uses '/bin/bash \-c' as the base command to perform inspection.
+This method uses '/bin/bash -c' as the base command to perform inspection.
 
-.fi
-.RE
-
-.PP
-\fB\-\-cmd\fP="": Command to inspect (default: node)
+.EE
 
 .PP
-\fB\-\-configmap, \-c\fP="": Path to configmap.yaml
+\fB--cmd\fP="": Command to inspect (default: node)
 
 .PP
-\fB\-\-exclude\fP="": List (csv) of specific env vars to exclude values from display. Set to \fB\fC""\fR to remove any exclusions. (default: PATH,SHLVL,HOSTNAME)
+\fB--configmap, -c\fP="": Path to configmap.yaml
 
 .PP
-\fB\-\-filter\-prefix, \-f\fP="": List of prefixes (csv) used to filter values from display. Set to \fB\fC""\fR to remove any filters. (default: npm\fI,KUBERNETES\fP,API\_PORT)
+\fB--exclude\fP="": List (csv) of specific env vars to exclude values from display. Set to \fB""\fR to remove any exclusions. (default: PATH,SHLVL,HOSTNAME)
 
 .PP
-\fB\-\-namespace, \-n\fP="": Kube Namespace to list Pods from for inspection
+\fB--filter-prefix, -f\fP="": List of prefixes (csv) used to filter values from display. Set to \fB""\fR to remove any filters. (default: npm\fI,KUBERNETES\fP,API_PORT)
 
 .PP
-\fB\-\-secret\-suffix\fP="": Suffix used to find ENV variables that denote the Secret Manager Secrets to lookup (default: \_NAME)
+\fB--namespace, -n\fP="": Kube Namespace to list Pods from for inspection
 
 .PP
-\fB\-\-secrets, \-s\fP="": Path to secrets.yml (default: .docker/secrets.yml)
+\fB--secret-suffix\fP="": Suffix used to find ENV variables that denote the Secret Manager Secrets to lookup (default: _NAME)
+
+.PP
+\fB--secrets, -s\fP="": Path to secrets.yml (default: .docker/secrets.yml)
 
 .SS ansible, legacy
 .PP
 View diff of local (ansible encrypted) vs. namespace
 
-.PP
-.RS
-
-.nf
-View the diff of the local ansible\-vault encrypted Kubenetes Secret file
+.EX
+View the diff of the local ansible-vault encrypted Kubenetes Secret file
 against a given dotenv file on a pod within a namespace.
 
 The local file will use the contents of the 'data.<accsessor flag>' block.
 This defaults to 'data..env'.
 
-Supported ansible\-vault encryption version: $ANSIBLE\_VAULT;1.1;AES256
+Supported ansible-vault encryption version: $ANSIBLE_VAULT;1.1;AES256
 
 Example file structure of decrypted file:
 
-\-\-\-
+---
 apiVersion: v1
 kind: Secret
 type: Opaque
@@ -169,25 +158,24 @@ data:
 It will then grab contents of the dotenv filr on a Pod in a given Namespace.
 
 This defaults to inspecting the '$PWD/.env on' when executing a 'cat' command.
-This method uses '/bin/bash \-c' as the base command to perform inspection.
+This method uses '/bin/bash -c' as the base command to perform inspection.
 
-.fi
-.RE
-
-.PP
-\fB\-\-accessor, \-a\fP="": Accessor key to pull data out of Data block. (default: .env)
+.EE
 
 .PP
-\fB\-\-dotenv\fP="": Path to \fB\fC\&.env\fR file on Pod (default: $PWD/.env)
+\fB--accessor, -a\fP="": Accessor key to pull data out of Data block. (default: .env)
 
 .PP
-\fB\-\-encrypted\-env\-file, \-e\fP="": Path to encrypted Kube Secret file
+\fB--dotenv\fP="": Path to \fB\&.env\fR file on Pod (default: $PWD/.env)
 
 .PP
-\fB\-\-namespace, \-n\fP="": Kube Namespace list Pods from for inspection
+\fB--encrypted-env-file, -e\fP="": Path to encrypted Kube Secret file
 
 .PP
-\fB\-\-vault\-password\-file\fP="": vault password file \fB\fCVAULT\_PASSWORD\_FILE\fR
+\fB--namespace, -n\fP="": Kube Namespace list Pods from for inspection
+
+.PP
+\fB--vault-password-file\fP="": vault password file \fBVAULT_PASSWORD_FILE\fR
 
 .SS view, v
 .PP
@@ -206,17 +194,17 @@ A single line of UsageText
 .RE
 
 .PP
-\fB\-\-configmap, \-c\fP="": Path to configmap.yaml
+\fB--configmap, -c\fP="": Path to configmap.yaml
 
 .PP
-\fB\-\-secret\-suffix\fP="": Suffix used to find ENV variables that denote the Secret Manager Secrets to lookup (default: \_NAME)
+\fB--secret-suffix\fP="": Suffix used to find ENV variables that denote the Secret Manager Secrets to lookup (default: _NAME)
 
 .PP
-\fB\-\-secrets, \-s\fP="": Path to secrets.yml (default: .docker/secrets.yml)
+\fB--secrets, -s\fP="": Path to secrets.yml (default: .docker/secrets.yml)
 
 .SS ansible, legacy
 .PP
-View env values from ansible\-vault encrypted Secret file.
+View env values from ansible-vault encrypted Secret file.
 
 .PP
 .RS
@@ -227,33 +215,30 @@ A single line of UsageText
 .RE
 
 .PP
-\fB\-\-accessor, \-a\fP="": Accessor key to pull data out of Data block. (default: .env)
+\fB--accessor, -a\fP="": Accessor key to pull data out of Data block. (default: .env)
 
 .PP
-\fB\-\-encrypted\-env\-file, \-e\fP="": Path to encrypted Kube Secret file
+\fB--encrypted-env-file, -e\fP="": Path to encrypted Kube Secret file
 
 .PP
-\fB\-\-vault\-password\-file\fP="": vault password file \fB\fCVAULT\_PASSWORD\_FILE\fR
+\fB--vault-password-file\fP="": vault password file \fBVAULT_PASSWORD_FILE\fR
 
 .SS namespace, ns
 .PP
 Interact with env on a running Pod within a Namespace
 
-.PP
-.RS
-
-.nf
-View the diff of the local ansible\-vault encrypted Kubenetes Secret file
+.EX
+View the diff of the local ansible-vault encrypted Kubenetes Secret file
 against a given dotenv file on a pod within a namespace.
 
 The local file will use the contents of the 'data.<accsessor flag>' block.
 This defaults to 'data..env'.
 
-Supported ansible\-vault encryption version: $ANSIBLE\_VAULT;1.1;AES256
+Supported ansible-vault encryption version: $ANSIBLE_VAULT;1.1;AES256
 
 Example file structure of decrypted file:
 
-\-\-\-
+---
 apiVersion: v1
 kind: Secret
 type: Opaque
@@ -263,22 +248,21 @@ data:
 It will then grab contents of the dotenv filr on a Pod in a given Namespace.
 
 This defaults to inspecting the '$PWD/.env on' when executing a 'cat' command.
-This method uses '/bin/bash \-c' as the base command to perform inspection.
+This method uses '/bin/bash -c' as the base command to perform inspection.
 
-.fi
-.RE
-
-.PP
-\fB\-\-cmd\fP="": Command to inspect (default: node)
+.EE
 
 .PP
-\fB\-\-exclude\fP="": List (csv) of specific env vars to exclude values from display. Set to \fB\fC""\fR to remove any exclusions. (default: PATH,SHLVL,HOSTNAME)
+\fB--cmd\fP="": Command to inspect (default: node)
 
 .PP
-\fB\-\-filter\-prefix, \-f\fP="": List of prefixes (csv) used to filter values from display. Set to \fB\fC""\fR to remove any filters. (default: npm\fI,KUBERNETES\fP,API\_PORT)
+\fB--exclude\fP="": List (csv) of specific env vars to exclude values from display. Set to \fB""\fR to remove any exclusions. (default: PATH,SHLVL,HOSTNAME)
 
 .PP
-\fB\-\-namespace, \-n\fP="": Kube Namespace list Pods from
+\fB--filter-prefix, -f\fP="": List of prefixes (csv) used to filter values from display. Set to \fB""\fR to remove any filters. (default: npm\fI,KUBERNETES\fP,API_PORT)
+
+.PP
+\fB--namespace, -n\fP="": Kube Namespace list Pods from
 
 .SH s3
 .PP

@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"github.com/stretchr/testify/assert"
 	"github.com/urfave/cli/v2"
-	"io/ioutil"
 	"os"
 	"testing"
 	"time"
@@ -317,7 +316,7 @@ func Test_ToMarkdown(t *testing.T) {
 
 	res, err := ToMarkdown(app)
 
-	data, _ := ioutil.ReadFile("data/test.md")
+	data, _ := os.ReadFile("data/test.md")
 
 	is.Nil(err)
 	is.Equal(res, string(data))
@@ -330,7 +329,7 @@ func Test_ToMan(t *testing.T) {
 
 	res, err := ToMan(app)
 
-	data, _ := ioutil.ReadFile("data/test.man")
+	data, _ := os.ReadFile("data/test.man")
 
 	is.Nil(err)
 	is.Equal(res, string(data))
