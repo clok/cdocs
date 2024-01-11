@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -114,7 +113,7 @@ func InstallManpageCommand(opts *InstallManpageCommandInput) (*cli.Command, erro
 			mp, _ := ToMan(c.App)
 			manpath := filepath.Join(path, fmt.Sprintf("%s.8", name))
 			kman.Printf("generated man page path: %s", manpath)
-			err := ioutil.WriteFile(manpath, []byte(mp), 0644)
+			err := os.WriteFile(manpath, []byte(mp), 0644)
 			if err != nil {
 				return cli.Exit(fmt.Sprintf("Unable to install man page: %e", err), 2)
 			}
