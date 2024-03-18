@@ -4,8 +4,8 @@ go 1.18
 
 require (
 	github.com/clok/kemba v1.2.1
-	github.com/cpuguy83/go-md2man/v2 v2.0.3
-	github.com/stretchr/testify v1.8.4
+	github.com/cpuguy83/go-md2man/v2 v2.0.4
+	github.com/stretchr/testify v1.9.0
 	github.com/urfave/cli/v2 v2.27.1
 )
 
