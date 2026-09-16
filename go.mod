@@ -1,6 +1,6 @@
 module github.com/clok/cdocs
 
-go 1.18
+go 1.27.1
 
 require (
 	github.com/clok/kemba v1.2.1
